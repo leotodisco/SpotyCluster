@@ -40,10 +40,12 @@ def create_dataset():
     tracce_id = get_fav_tracks_list()
     features_values = []
     features_names = ['danceability', 'energy', 'valence', 'acousticness', 
-                      'speechiness', 'instrumentalness', 'liveness', 'tempo', 'id']
+                      'speechiness', 'instrumentalness', 'liveness', 'tempo', 'id', 'titolo']
 
     for song in tracce_id:
         idx = tracce_id.index(song)
+        titolo_canzone = sp.track(song)["name"]
+        
         song_array = list([sp.audio_features(song)[0][features_names[0]], 
                               sp.audio_features(song)[0][features_names[1]], 
                               sp.audio_features(song)[0][features_names[2]], 
@@ -52,8 +54,8 @@ def create_dataset():
                               sp.audio_features(song)[0][features_names[5]],
                               sp.audio_features(song)[0][features_names[6]],
                               sp.audio_features(song)[0][features_names[7]],
-                              tracce_id[idx]]
-                              )
+                              tracce_id[idx],
+                              titolo_canzone])
         
         features_values.append(song_array)
 
