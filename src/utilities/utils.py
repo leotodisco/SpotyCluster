@@ -2,8 +2,6 @@
 import spotipy
 from spotipy import SpotifyOAuth
 import cfg
-import pandas as pd
-import numpy as np
 import csv
 
 
@@ -14,16 +12,14 @@ sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id = cfg.SPOTIPY_CLIENT_ID
                          requests_timeout=10))
 
 """
-    crea una lista con gli id delle canzoni
+    Crea una lista con gli id delle canzoni che l'utente ha salvato nei preferiti.
 """
 def get_fav_tracks_list():
     offset = 0
     tracce = []
 
     while True:
-        response = sp.current_user_saved_tracks(
-                                 offset=offset,
-                                 limit=50)
+        response = sp.current_user_saved_tracks(offset=offset, limit=50)
 
         if(len(response['items']) == 0):
             break
@@ -35,6 +31,11 @@ def get_fav_tracks_list():
 
     return tracce
 
+"""
+    Funzione che genera il dataset.
+    Ottiene tutte le canzoni che l'utente ha salvato come preferite,
+    per ognuna di esse salva le feature in un csv che si trova nella cartella data.
+"""
 def create_dataset():
     tracce_id = get_fav_tracks_list()
     features_values = []
@@ -56,11 +57,11 @@ def create_dataset():
         
         features_values.append(song_array)
 
+    #scrittura del csv
     with open('../../data/dataset.csv', mode='w', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(features_names)
         writer.writerows(features_values)
-        
 
 create_dataset()
 
