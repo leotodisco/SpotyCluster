@@ -14,14 +14,14 @@ plt.savefig("istogrammaDataset.png")
         - normalizzazione dei dati
 """
 def pre(data):
-    to_drop_columns = ['id', 'titolo']
+    to_drop_columns = ['id']
     colonne_tenute = ['danceability', 'energy', 'valence', 'acousticness', 
-                      'speechiness', 'instrumentalness', 'liveness', 'tempo']
+                      'speechiness', 'instrumentalness', 'liveness', 'tempo', 'titolo']
 
     data.drop(to_drop_columns, axis=1, inplace=True)
-
     scaler = preprocessing.MinMaxScaler((0, 1))
-    data = scaler.fit_transform(dataset)
+    scaler.fit_transform(data[['danceability', 'energy', 'valence', 'acousticness', 'speechiness', 'instrumentalness', 'liveness', 'tempo']])
+    #data = scaler.fit_transform(dataset)
     data = pd.DataFrame(data=data, columns=colonne_tenute)
 
     data.hist(figsize=(10,8))
