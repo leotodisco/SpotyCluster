@@ -1,2 +1,2 @@
-# SpotyAdvisor
+# SpotyCluster
  
